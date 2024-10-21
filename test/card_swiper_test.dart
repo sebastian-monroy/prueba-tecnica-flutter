@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class MockMoviesProvider extends Mock implements MoviesProvider {}
 
 void main() {
-  testWidgets('CardSwiper muestra correctamente las películas con un provider mockeado', (WidgetTester tester) async {
+  testWidgets('CardSwiper muestra imágenes correctamente y permite swipe y navegación', (WidgetTester tester) async {
     // Simulación de una lista de películas
     final movies = [
       Movie(
@@ -64,15 +64,32 @@ void main() {
     );
 
     // Verifica que las imágenes de las películas se muestran correctamente
-    expect(find.byType(FadeInImage), findsNWidgets(2));
+    final poster1 = find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is FadeInImage && widget.image.toString().contains('poster1.jpg'),
+    );
+    final poster2 = find.byWidgetPredicate(
+      (Widget widget) =>
+          widget is FadeInImage && widget.image.toString().contains('poster2.jpg'),
+    );
+    
+    expect(poster1, findsOneWidget); // Verifica que la primera imagen se muestra
+    expect(poster2, findsNothing);   // Verifica que solo se muestra la primera al inicio
 
     // Simula el swipe para pasar de una película a otra
     await tester.drag(find.byType(CardSwiper), const Offset(-300.0, 0.0));
     await tester.pump();
 
-    // Verifica que el swipe funciona
-    expect(find.text('Pelicula 1'), findsNothing); // Película 1 debe desaparecer
-    expect(find.text('Pelicula 2'), findsOneWidget); // Película 2 debe aparecer
+    // Verifica que después del swipe la segunda imagen está visible
+    expect(poster1, findsNothing);   // La primera imagen ya no debe estar
+    expect(poster2, findsOneWidget); // La segunda imagen debe estar visible
+
+    // Verifica la navegación al tocar una película
+    await tester.tap(poster2);
+    await tester.pumpAndSettle();
+
+    // Debes verificar que la navegación sucedió, aquí depende de cómo hayas implementado la pantalla de detalles.
+    // Por ejemplo, si usas `Navigator.pushNamed` con el nombre 'details':
+    expect(find.text('Pelicula 2'), findsOneWidget); // Verifica que se navegó a detalles
   });
 }
-
