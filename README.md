@@ -13,7 +13,7 @@ para descargar el proyecto se hara lo siguiente:
 
 1. clonar el proyecto con git
  - vamos a ubicarnos en una carpeta en donde quieran abrir el proyecto y abrimos la consola (cmd)y vamos a digitar este comando:
-   ## git clone https://github.com/sebastian-monroy/ https://github.com/sebastian-monroy/prueba-tecnica-flutter.git
+   ## git clone https://github.com/sebastian-monroy/prueba-tecnica-flutter.git
 
 2. Instalando dependencias
  - una vez tengan el proyecto clonado y descargado lo abren con visual studio code y para instalacion de dependencias abren la    terminal dentro de la carpeta y ejecutan:
