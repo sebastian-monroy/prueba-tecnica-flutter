@@ -88,8 +88,7 @@ void main() {
     await tester.tap(poster2);
     await tester.pumpAndSettle();
 
-    // Debes verificar que la navegación sucedió, aquí depende de cómo hayas implementado la pantalla de detalles.
-    // Por ejemplo, si usas `Navigator.pushNamed` con el nombre 'details':
+
     expect(find.text('Pelicula 2'), findsOneWidget); // Verifica que se navegó a detalles
   });
 }
