@@ -50,7 +50,7 @@ class _CustomAppBar extends StatelessWidget {
               color: Colors.white,
             ))
       ],
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       expandedHeight: 300,
       floating: false,
       pinned: true,

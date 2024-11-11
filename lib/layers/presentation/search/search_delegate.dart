@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_list_app/layers/data/models/movie.dart';
 import 'package:movies_list_app/layers/presentation/bloc/bloc_movie.dart';
-import 'package:movies_list_app/layers/presentation/bloc/movies_event.dart';
-import 'package:movies_list_app/layers/presentation/bloc/movies_state.dart';
+import 'package:movies_list_app/layers/domain/usercase/movies_event.dart';
+import 'package:movies_list_app/layers/domain/repository/movies_state.dart';
 
 
 class MovieSearchDelegate extends SearchDelegate{

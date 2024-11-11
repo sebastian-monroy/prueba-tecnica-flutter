@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_list_app/layers/data/models/models.dart';
 import 'package:movies_list_app/layers/data/models/search_response.dart';
-import 'movies_event.dart';
-import 'movies_state.dart';
+import '../../domain/usercase/movies_event.dart';
+import '../../domain/repository/movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final String _apikey = '8aafd2fe520929670422504724495f75';
