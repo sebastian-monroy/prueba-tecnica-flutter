@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../../data/models/movie.dart';
+import '../../domain/models/movie.dart';
 
 class MovieSilder extends StatefulWidget {
   final List<Movie> movies;

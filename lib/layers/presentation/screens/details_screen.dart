@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movies_list_app/layers/presentation/widgets/widgets.dart';
 
-import '../../data/models/movie.dart';
+import '../../domain/models/movie.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override

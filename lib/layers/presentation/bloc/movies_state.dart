@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:movies_list_app/layers/data/models/models.dart';
+import 'package:movies_list_app/layers/domain/models/models.dart';
 
 class MoviesState extends Equatable {
   final List<Movie> onDisplayMovies;

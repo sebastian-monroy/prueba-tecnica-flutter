@@ -1,9 +1,9 @@
-import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:movies_list_app/app_locator.dart';
 import 'package:movies_list_app/layers/presentation/bloc/bloc_movie.dart';
-import 'package:movies_list_app/layers/domain/usercase/movies_event.dart';
-import 'package:movies_list_app/layers/domain/repository/movies_state.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_event.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_state.dart';
 
 class MockMoviesBloc extends Mock implements MoviesBloc {}
 
@@ -11,8 +11,13 @@ void main() {
   group('MoviesBloc con datos reales', () {
     late MoviesBloc moviesBloc;
 
+
+    setUpAll(()async{
+      await registerDependencies();
+    });
+
     setUp(() async {
-      moviesBloc = MoviesBloc(client: http.Client());
+      moviesBloc = MoviesBloc();
     });
 
     tearDown(() {

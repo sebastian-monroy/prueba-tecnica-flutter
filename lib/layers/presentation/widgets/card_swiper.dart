@@ -1,7 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:movies_list_app/layers/data/models/movie.dart';
+import 'package:movies_list_app/layers/domain/models/movie.dart';
 
 class CardSwiper extends StatefulWidget {
 

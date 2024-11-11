@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:movies_list_app/layers/data/models/movie.dart';
+import 'package:movies_list_app/layers/domain/models/movie.dart';
 
 class SearchResponse {
     final int page;
