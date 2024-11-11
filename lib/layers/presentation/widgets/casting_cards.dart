@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:movies_list_app/models/models.dart';
-import 'package:movies_list_app/providers/movies_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_list_app/layers/data/models/models.dart';
+import 'package:movies_list_app/layers/presentation/bloc/bloc_movie.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_event.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_state.dart';
+
 
 class CastingCards extends StatelessWidget {
 
@@ -12,13 +16,14 @@ class CastingCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+    
+    final moviesBloc = BlocProvider.of<MoviesBloc>(context);
 
-    return FutureBuilder(
-      future: moviesProvider.getMovieCast(movieId),
-      builder: ( _, AsyncSnapshot<List<Cast>> snapshot) {
-        
-        if(!snapshot.hasData) {
+    moviesBloc.add(LoadMovieCast(movieId));
+
+    return BlocBuilder<MoviesBloc, MoviesState>(
+      builder: (context, state) {
+        if (state.isLoading) {
           return Container(
             constraints: BoxConstraints(maxWidth: 150),
             height: 180,
@@ -26,20 +31,34 @@ class CastingCards extends StatelessWidget {
           );
         }
 
-        final List<Cast> cast = snapshot.data!;
+        if (!state.moviesCast.containsKey(movieId)) {
+          return _emptyContainer(); 
+        }
+
+        final List<Cast>? cast = state.moviesCast[movieId];
+
+         if (cast == null || cast.isEmpty) {
+          return _emptyContainer();  
+        }
 
         return Container(
-          margin: EdgeInsets.only( bottom: 30 ),
+          margin: EdgeInsets.only( bottom: 20 ),
           width: double.infinity,
           height: 180,
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: cast.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: ( _, int index) => _CastCard( cast[index] ),
           ),
         );
-
       },
+    );
+  }
+  Widget _emptyContainer(){
+    return Container(
+      child: Center(
+        child: Icon(Icons.movie_creation_outlined, color: Colors.black38, size: 100),
+      ),
     );
   }
 }
@@ -61,7 +80,7 @@ class _CastCard extends StatelessWidget {
       child: Column(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(50),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'), 
               image: NetworkImage(actor.fullProfilePath),
@@ -70,7 +89,7 @@ class _CastCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Text(
             actor.name, 
             maxLines: 2, 

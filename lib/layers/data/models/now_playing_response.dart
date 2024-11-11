@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:movies_list_app/models/movie.dart';
+import 'package:movies_list_app/layers/data/models/movie.dart';
 
 class NowPlayingResponse {
   final Dates dates;

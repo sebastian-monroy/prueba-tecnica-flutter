@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movies_list_app/providers/movies_provider.dart';
-import 'package:movies_list_app/screens/screens.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_list_app/layers/presentation/bloc/bloc_movie.dart';
+import 'package:movies_list_app/layers/presentation/bloc/bloc_theme.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_event.dart';
+import 'package:movies_list_app/layers/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 
@@ -14,9 +17,10 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> MoviesProvider(), lazy: false,)
+        BlocProvider<MoviesBloc>(create: (_)=> MoviesBloc()..add(LoadOnDisplayMovies())),
+        BlocProvider<ThemeBloc>(create: (_) => ThemeBloc())
       ],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
@@ -26,19 +30,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Peliculas App',
-      initialRoute: 'home',
-      routes: {
-        'home': (_) => HomeScreen(),
-        'details': (_) => DetailsScreen()
-      },
-      theme: ThemeData.light().copyWith(
-        appBarTheme: AppBarTheme(
-          color: Colors.indigo
-        )
-      ),
+
+    final themeBloc = Provider.of<ThemeBloc>(context);
+
+    return BlocBuilder<ThemeBloc, ThemeData>(
+      builder: (context, theme){
+        return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Peliculas App',
+        initialRoute: 'home',
+        routes: {
+          'home': (_) => HomeScreen(),
+          'details': (_) => DetailsScreen()
+        },
+        theme: theme
+      );
+      }
     );
   }
 }

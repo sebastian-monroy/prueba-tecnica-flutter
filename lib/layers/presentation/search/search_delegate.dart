@@ -1,10 +1,10 @@
-
-
-
 import 'package:flutter/material.dart';
-import 'package:movies_list_app/models/movie.dart';
-import 'package:movies_list_app/providers/movies_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_list_app/layers/data/models/movie.dart';
+import 'package:movies_list_app/layers/presentation/bloc/bloc_movie.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_event.dart';
+import 'package:movies_list_app/layers/presentation/bloc/movies_state.dart';
+
 
 class MovieSearchDelegate extends SearchDelegate{
 
@@ -54,21 +54,25 @@ class MovieSearchDelegate extends SearchDelegate{
       return _emptyContainer();
     }
 
-    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
-      return FutureBuilder(
-        future: moviesProvider.searchMovie(query), 
-        builder: (_, AsyncSnapshot<List<Movie>> snapshot) {
+    final moviesBloc = BlocProvider.of<MoviesBloc>(context);
+    moviesBloc.add(SearchMovie(query)); 
 
-
-          if(!snapshot.hasData) return _emptyContainer();
-
-          final movies = snapshot.data!;
-
+    return BlocBuilder<MoviesBloc, MoviesState>(
+      builder: (context, state){
+        if(state.isLoading){
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state.searchedMovies.isEmpty){
+          return _emptyContainer();
+        } else {
+          final movies = state.searchedMovies;
           return ListView.builder(
             itemCount: movies.length,
-            itemBuilder: (_, int index) => _MovieItem(movies[index]),
+            itemBuilder: (_, int index)=>_MovieItem(movies[index])
           );
         }
+      }
     );
   }
 
